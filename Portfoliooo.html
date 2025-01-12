@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramjeet's Portfolio and Finance Tools</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .calculator {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .calculator h2 {
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e7f3e7;
+            border: 1px solid #d4e6d4;
+            border-radius: 5px;
+        }
+
+        canvas {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        #lec {
+           
+            border: 2px solid #007bff;
+            /* Blue border */
+            padding: 20px;
+            border-radius: 25px;
+            /* Optional: For slightly rounded corners */
+
+
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to the Ultimate Portfolio Planner</h1>
+        <p>Explore my work and use my financial tools to plan your finances better!</p>
+    </header>
+
+
+
+
+
+    <div id="stock-data">
+        <div class="stock">
+            <h2>Nifty 50: <span id="nifty-price">Loading...</span></h2>
+        </div>
+        <div class="stock">
+            <h2>Sensex: <span id="sensex-price">Loading...</span></h2>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <div class="container">
+        <!-- <section>
+            <h2>About Me</h2>
+            <p>Hello! I'm Paramjeet, a finance enthusiast with a passion for helping people understand and optimize
+                their financial well-being. Explore my portfolio and tools to learn more.</p>
+        </section> -->
+
+        <section id="calculators">
+            <div class="calculator">
+                <h2>SIP Calculator</h2>
+                <p>A Systematic Investment Plan (SIP) allows you to invest a fixed amount regularly, helping you build
+                    wealth over time through compounding returns. It is ideal for long-term goals like retirement or
+                    children's education. SIP calculators help estimate the future value of your investment based on the
+                    monthly contribution, rate of return, and investment duration.</p>
+                <div class="form-group">
+                    <label for="sip-amount">Monthly Investment (₹):</label>
+                    <input type="number" id="sip-amount" placeholder="e.g., 5000">
+                </div>
+                <div class="form-group">
+                    <label for="sip-rate">Expected Annual Return Rate (%):</label>
+                    <input type="number" id="sip-rate" placeholder="e.g., 12">
+                </div>
+                <div class="form-group">
+                    <label for="sip-years">Investment Duration (years):</label>
+                    <input type="number" id="sip-years" placeholder="e.g., 10">
+                </div>
+                <button onclick="calculateSIP()">Calculate</button>
+                <div class="result" id="sip-result"></div>
+                <canvas id="sip-pie-chart"></canvas>
+            </div>
+
+            <div class="calculator">
+                <h2>Lump Sum Calculator</h2>
+                <div class="form-group">
+                    <label for="lump-amount">Initial Investment (₹):</label>
+                    <input type="number" id="lump-amount" placeholder="e.g., 100000">
+                </div>
+                <div class="form-group">
+                    <label for="lump-rate">Expected Annual Return Rate (%):</label>
+                    <input type="number" id="lump-rate" placeholder="e.g., 8">
+                </div>
+                <div class="form-group">
+                    <label for="lump-years">Investment Duration (years):</label>
+                    <input type="number" id="lump-years" placeholder="e.g., 10">
+                </div>
+                <button onclick="calculateLumpSum()">Calculate</button>
+                <div class="result" id="lump-result"></div>
+            </div>
+
+            <div id="lec" class="calculator">
+                <h2>Loan EMI Calculator</h2>
+                <p>An Equated Monthly Installment (EMI) calculator helps calculate the monthly payment required to repay
+                    a loan. It factors in the loan amount, interest rate, and tenure to give you the total EMI amount
+                    and a clear view of your repayment schedule.</p>
+                <div class="form-group">
+                    <label for="loan-amount">Loan Amount (₹):</label>
+                    <input type="number" id="loan-amount" placeholder="e.g., 500000">
+                </div>
+                <div class="form-group">
+                    <label for="loan-rate">Annual Interest Rate (%):</label>
+                    <input type="number" id="loan-rate" placeholder="e.g., 8">
+                </div>
+                <div class="form-group">
+                    <label for="loan-tenure">Tenure (years):</label>
+                    <input type="number" id="loan-tenure" placeholder="e.g., 5">
+                </div>
+                <button onclick="calculateEMI()">Calculate</button>
+                <div class="result" id="emi-result"></div>
+            </div>
+
+            <div class="calculator">
+                <h2>Sukanya Samriddhi Yojana (SSY) Calculator</h2>
+                <p>Sukanya Samriddhi Yojana (SSY) is a government-backed savings scheme aimed at securing the future of
+                    a girl child, offering attractive returns and tax benefits. The interest rate for SSY is 8.2% for
+                    July to September 2024, determined quarterly. Historical interest rates have remained consistent,
+                    with rates of 8.0% in the previous quarters. Contributions can range from Rs. 250 to Rs. 1.5 lakh
+                    annually, making it a popular choice for long-term investment in a girl child’s future.</p>
+                <div class="form-group">
+                    <label for="ssy-amount">Yearly Deposit (₹):</label>
+                    <input type="number" id="ssy-amount" placeholder="e.g., 50000">
+                </div>
+                <div class="form-group">
+                    <label for="ssy-rate">Interest Rate (%):</label>
+                    <input type="number" id="ssy-rate" placeholder="e.g., 7.6">
+                </div>
+                <div class="form-group">
+                    <label for="ssy-years">Investment Duration (years):</label>
+                    <input type="number" id="ssy-years" placeholder="e.g., 21">
+                </div>
+                <button onclick="calculateSSY()">Calculate</button>
+                <div class="result" id="ssy-result"></div>
+            </div>
+        </section>
+
+        <section class="calculator-section" id="swp-calculator">
+            <h2>SWP Calculator</h2>
+            <p>The Systematic Withdrawal Plan (SWP) allows investors to withdraw a fixed amount at regular intervals
+                from their mutual funds, offering a steady income stream. Ideal for retirees, it provides
+                flexibility to manage expenses without fully liquidating the investment, ensuring continued growth.</p>
+            <div class="calculator">
+                <div class="form-group">
+                    <label for="swp-principal">Initial Investment (₹):</label>
+                    <input type="number" id="swp-principal" placeholder="e.g., 500000">
+                </div>
+                <div class="form-group">
+                    <label for="swp-rate">Annual Return Rate (%):</label>
+                    <input type="number" id="swp-rate" placeholder="e.g., 8">
+                </div>
+                <div class="form-group">
+                    <label for="swp-withdrawal">Monthly Withdrawal (₹):</label>
+                    <input type="number" id="swp-withdrawal" placeholder="e.g., 10000">
+                </div>
+                <div class="form-group">
+                    <label for="swp-duration">Duration (years):</label>
+                    <input type="number" id="swp-duration" placeholder="e.g., 10">
+                </div>
+                <button onclick="calculateSWP()">Calculate</button>
+                <div class="result" id="swp-result"></div>
+            </div>
+        </section>
+
+        <section class="calculator-section" id="tax-calculator">
+            <h2>Income Tax Calculator</h2>
+            <div class="calculator">
+                <div class="form-group">
+                    <label for="income">Annual Income (₹):</label>
+                    <input type="number" id="income" placeholder="e.g., 800000">
+                </div>
+                <button onclick="calculateIncomeTax()">Calculate</button>
+                <div class="result" id="tax-result"></div>
+            </div>
+
+
+
+
+
+            <div>
+                <label for="income">Enter your annual income:</label>
+                <input type="number" id="income" name="income" required>
+
+                <label for="deductions">Enter total deductions:</label>
+                <input type="number" id="deductions" name="deductions" required>
+
+                <label for="investment">Enter total eligible investments:</label>
+                <input type="number" id="investment" name="investment" required>
+
+                <label for="regime">Select tax regime:</label>
+                <select id="regime" name="regime">
+                    <option value="old">Old Regime</option>
+                    <option value="new">New Regime</option>
+                </select>
+
+                <button type="button" onclick="calculateTax()">Calculate Tax</button>
+
+                <div id="result"></div>
+            </div>
+
+
+
+
+
+
+
+
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function calculateSIP() {
+            const amount = parseFloat(document.getElementById('sip-amount').value);
+            const rate = parseFloat(document.getElementById('sip-rate').value) / 100 / 12;
+            const years = parseFloat(document.getElementById('sip-years').value);
+            const months = years * 12;
+            const sipValue = (amount * ((1 + rate) ** months - 1) * (1 + rate)) / rate;
+            document.getElementById('sip-result').innerText = Future Value: ₹${sipValue.toFixed(2)};
+
+            const investedAmount = amount * months;
+            const returns = sipValue - investedAmount;
+
+            renderSIPPieChart(investedAmount, returns);
+        }
+
+        function renderSIPPieChart(investedAmount, returns) {
+            const ctx = document.getElementById('sip-pie-chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Invested Amount', 'Returns'],
+                    datasets: [{
+                        data: [investedAmount, returns],
+                        backgroundColor: ['#FF6384', '#36A2EB']
+                    }]
+                }
+            });
+        }
+
+        function calculateLumpSum() {
+            const amount = parseFloat(document.getElementById('lump-amount').value);
+            const rate = parseFloat(document.getElementById('lump-rate').value) / 100;
+            const years = parseFloat(document.getElementById('lump-years').value);
+            const lumpSumValue = amount * ((1 + rate) ** years);
+            document.getElementById('lump-result').innerText = Future Value: ₹${lumpSumValue.toFixed(2)};
+        }
+
+        function calculateEMI() {
+            const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+            const rate = parseFloat(document.getElementById('loan-rate').value) / 100 / 12;
+            const tenure = parseFloat(document.getElementById('loan-tenure').value) * 12;
+            const emi = (loanAmount * rate * ((1 + rate) ** tenure)) / (((1 + rate) ** tenure) - 1);
+            document.getElementById('emi-result').innerText = EMI: ₹${emi.toFixed(2)};
+        }
+
+        function calculateSSY() {
+            const amount = parseFloat(document.getElementById('ssy-amount').value);
+            const rate = parseFloat(document.getElementById('ssy-rate').value) / 100;
+            const years = parseFloat(document.getElementById('ssy-years').value);
+            const maturityValue = amount * ((1 + rate) ** years);
+            document.getElementById('ssy-result').innerText = Maturity Value: ₹${maturityValue.toFixed(2)};
+        }
+
+        function calculateSWP() {
+            const principal = parseFloat(document.getElementById('swp-principal').value);
+            const rate = parseFloat(document.getElementById('swp-rate').value) / 100;
+            const withdrawal = parseFloat(document.getElementById('swp-withdrawal').value);
+            const duration = parseFloat(document.getElementById('swp-duration').value);
+            let balance = principal;
+            let totalWithdrawn = 0;
+
+            for (let i = 0; i < duration * 12; i++) {
+                balance = balance * (1 + rate) - withdrawal;
+                totalWithdrawn += withdrawal;
+            }
+
+            const remainingBalance = balance + totalWithdrawn - principal;
+            document.getElementById('swp-result').innerText = Total Withdrawn: ₹${totalWithdrawn.toFixed(2)}, Remaining Balance: ₹${remainingBalance.toFixed(2)};
+        }
+
+        function calculateIncomeTax() {
+            const income = parseFloat(document.getElementById('income').value);
+            let tax = 0;
+
+            if (income <= 250000) {
+                tax = 0;
+            } else if (income <= 500000) {
+                tax = (income - 250000) * 0.05;
+            } else if (income <= 1000000) {
+                tax = 250000 * 0.05 + (income - 500000) * 0.2;
+            } else {
+                tax = 250000 * 0.05 + 500000 * 0.2 + (income - 1000000) * 0.3;
+            }
+
+            document.getElementById('tax-result').innerText = Total Tax Payable: ₹${tax.toFixed(2)};
+        }
+
+
+
+
+        function calculateTax() {
+            const income = parseFloat(document.getElementById('income').value);
+            const deductions = parseFloat(document.getElementById('deductions').value);
+            const investment = parseFloat(document.getElementById('investment').value);
+            const regime = document.getElementById('regime').value;
+
+            let taxableIncome = income - deductions - investment;
+
+            let taxAmount = 0;
+
+            if (regime === 'old') {
+                if (taxableIncome <= 2.5e5) {
+                    taxAmount = 0;
+                } else if (taxableIncome <= 5e5) {
+                    taxAmount = (taxableIncome - 2.5e5) * 0.05;
+                } else if (taxableIncome <= 10e5) {
+                    taxAmount = (taxableIncome - 5e5) * 0.1 + 0.05 * 2.5e5;
+                } else if (taxableIncome <= 20e5) {
+                    taxAmount = (taxableIncome - 10e5) * 0.2 + 0.1 * 5e5 + 0.05 * 2.5e5;
+                } else {
+                    taxAmount = (taxableIncome - 20e5) * 0.3 + 0.2 * 10e5 + 0.1 * 5e5 + 0.05 * 2.5e5;
+                }
+            } else if (regime === 'new') {
+                // New tax regime slabs
+                if (taxableIncome <= 2.5e5) {
+                    taxAmount = 0;
+                } else if (taxableIncome <= 5e5) {
+                    taxAmount = (taxableIncome - 2.5e5) * 0.05;
+                } else if (taxableIncome <= 7.5e5) {
+                    taxAmount = (taxableIncome - 5e5) * 0.1 + 0.05 * 2.5e5;
+                } else if (taxableIncome <= 10e5) {
+                    taxAmount = (taxableIncome - 7.5e5) * 0.15 + 0.1 * 2.5e5 + 0.05 * 2.5e5;
+                } else if (taxableIncome <= 12.5e5) {
+                    taxAmount = (taxableIncome - 10e5) * 0.2 + 0.15 * 2.5e5 + 0.1 * 2.5e5 + 0.05 * 2.5e5;
+                } else {
+                    taxAmount = (taxableIncome - 12.5e5) * 0.3 + 0.2 * 2.5e5 + 0.15 * 2.5e5 + 0.1 * 2.5e5 + 0.05 * 2.5e5;
+                }
+            }
+
+            document.getElementById('result').innerHTML = Your tax amount is: ₹${taxAmount.toFixed(2)};
+        }
+
+
+        // const apiKey = 'YOUR_API_KEY';  // Replace with your API key
+        // const nifty50Symbol = 'NSE:NIFTY';  // Nifty 50 symbol on Alpha Vantage
+        // const sensexSymbol = 'BSE:SENSEX';  // Sensex symbol on Alpha Vantage
+
+        // async function fetchStockPrice(symbol, elementId) {
+        //     try {
+        //         const response = await fetch(https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=${apiKey});
+        //         const data = await response.json();
+        //         const latestTime = Object.keys(data['Time Series (1min)'])[0];
+        //         const latestPrice = data['Time Series (1min)'][latestTime]['1. open'];
+        //         document.getElementById(elementId).innerText = ₹${parseFloat(latestPrice).toFixed(2)};
+        //     } catch (error) {
+        //         console.error('Error fetching stock price:', error);
+        //         document.getElementById(elementId).innerText = 'Error loading data';
+        //     }
+        // }
+
+        // function updateStockPrices() {
+        //     fetchStockPrice(nifty50Symbol, 'nifty-price');
+        //     fetchStockPrice(sensexSymbol, 'sensex-price');
+        // }
+
+        // // Update every 60 seconds
+        // setInterval(updateStockPrices, 60000);
+
+        // // Fetch initial data
+        // updateStockPrices();
+
+
+
+
+        const API_KEY = '0Z7RKZOYDMO7PRVN';
+        const NIFTY_SYMBOL = 'NIFTY';  // Use this as Nifty 50 symbol
+        const SENSEX_SYMBOL = 'SENSEX'; // Use this as Sensex symbol
+
+        async function fetchStockData(symbol, elementId) {
+            const response = await fetch(https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=${API_KEY});
+            if (!response.ok) {
+                console.error('Error fetching data:', response.statusText);
+                document.getElementById(elementId).textContent = 'Error fetching data';
+                return;
+            }
+            const data = await response.json();
+            if (data['Time Series (1min)']) {
+                const latestTime = Object.keys(data['Time Series (1min)'])[0];
+                const latestPrice = data['Time Series (1min)'][latestTime]['1. open'];
+                document.getElementById(elementId).textContent = latestPrice;
+            } else {
+                document.getElementById(elementId).textContent = 'No data available';
+            }
+        }
+
+        // Fetch Nifty 50 data
+        fetchStockData(NIFTY_SYMBOL, 'nifty-price');
+
+        // Fetch Sensex data
+        fetchStockData(SENSEX_SYMBOL, 'sensex-price');
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
